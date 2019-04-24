@@ -8,6 +8,7 @@ import { NavBar } from './components';
 import createStore from './store';
 import { Recipes, Chain } from './routes';
 
+
 const store = createStore();
 
 class App extends PureComponent {
@@ -18,8 +19,8 @@ class App extends PureComponent {
           <Fragment>
             <NavBar />
             <Switch>
-              <Route path="recipe" component={Recipes} />
               <Route path="chain" component={Chain} />
+              <Route component={Recipes} />
             </Switch>
           </Fragment>
         </Router>

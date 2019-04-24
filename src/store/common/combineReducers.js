@@ -1,8 +1,8 @@
 import { Map } from 'immutable';
 import { compose } from 'redux';
 
-const callReducer = (key, reducer) => state => {
-  const newSubstate = reducer(state.get(key));
+const callReducer = (key, reducer) => (state, action = {}) => {
+  const newSubstate = reducer(state.get(key), action);
   if (state.get(key) !== newSubstate) {
     return state.set(newSubstate);
   }
@@ -10,9 +10,10 @@ const callReducer = (key, reducer) => state => {
 };
 
 export default (reducersMap) => {
-  const reducerOrder = [state => state || Map()];
+  const reducerOrder = [];
   Object.entries(reducersMap).forEach(
     ([key, reducer]) => reducerOrder.push(callReducer(key, reducer)),
   );
+  reducerOrder.push(state => state || Map());
   return compose(...reducerOrder);
 };
