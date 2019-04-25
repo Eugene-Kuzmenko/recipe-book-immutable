@@ -23,7 +23,7 @@ const resolveRequestAndSave = (fieldName) => (state, action) => state.merge({
  * @param {string} fieldName - name of the field where payload will be saved
  * @returns {function} Reducer
  * */
-const resolveRequest = (fieldName) => (state, action) => state.set('isLoading', false);
+const resolveRequest = () => (state, action) => state.set('isLoading', false);
 
 /**
  * Creates reducer which raises isLoading flag

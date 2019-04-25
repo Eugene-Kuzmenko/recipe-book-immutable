@@ -1,4 +1,4 @@
-import createReducer from 'create-reducer-redux';
+import { createReducer } from 'redux-create-reducer';
 import { Map } from 'immutable';
 
 import {
@@ -13,17 +13,6 @@ const initialState = Map({
 });
 
 export default createReducer(initialState, {
-  name: 'Recipe',
-
-  handlers: {
-    onRequest: [
-      GET_RECIPES_REQUEST,
-    ],
-    onRecipesReceived: [
-      GET_RECIPES_SUCCESS,
-    ]
-  },
-
-  onRequest: makeReducer.setAsLoading(),
-  onRecipesReceived: makeReducer.resolveRequest('collection'),
+  [GET_RECIPES_REQUEST]: makeReducer.setAsLoading(),
+  [GET_RECIPES_SUCCESS]: makeReducer.resolveRequestAndSave('collection'),
 })

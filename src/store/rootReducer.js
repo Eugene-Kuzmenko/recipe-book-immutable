@@ -1,4 +1,5 @@
-import combineReducers from './common/combineReducers';
+import { combineReducers } from 'redux-immutable';
+
 import recipe from './recipe/recipeReducer';
 
 
