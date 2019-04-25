@@ -13,9 +13,10 @@ import {
 } from 'semantic-ui-react';
 
 import { getRecipesAction } from '../../store/actions';
+import { Recipe } from '../../components';
 
 const mapStateToProps = state => ({
-  recipes: state.getIn(['recipe', 'collection']).toArray(),
+  recipes: state.getIn(['recipe', 'collection']),
 });
 
 const mapDispatchToProps = {
@@ -23,12 +24,6 @@ const mapDispatchToProps = {
 };
 
 class Recipes extends PureComponent {
-  constructor(props, context) {
-    super(props, context);
-    this.renderIn = this.renderItem.bind(this, 'green');
-    this.renderOut = this.renderItem.bind(this, 'red');
-  }
-
 
   componentDidMount() {
     this.props.getRecipesAction();
@@ -51,54 +46,14 @@ class Recipes extends PureComponent {
     this.setState({ newRecipeName: event.target.value })
   };
 
-  renderItem = (color, itemKV) => (
-    <List.Item key={itemKV[0]}>
-      <List.Content floated="right">
-        <Label size="small" as="a">
-          Remove
-        </Label>
-      </List.Content>
-      <Label size="small" color={color}>
-        {itemKV[1].get('qty')}
-      </Label> {itemKV[1].get('name')}
-    </List.Item>
-  );
-
-  renderItemList = (recipe, title, groupName, color, renderItem) => (
-    <Segment>
-      <List divided >
-        <List.Item>
-          <List.Content floated="right">
-            <Label size="small" as="a" color="green">
-              Add
-            </Label>
-          </List.Content>
-          <List.Content>
-            <Label
-              attached="top left"
-              corner
-            >
-              {title}
-            </Label>
-          </List.Content>
-
-        </List.Item>
-        {recipe.get(groupName).toArray().map(renderItem)}
-      </List>
-    </Segment>
-  );
-
-  renderRecipe = (recipeKV) => (
-    <Segment key={recipeKV[0]}>
-      <Label attached="top" color="blue">
-        {recipeKV[1].get('name')}
-      </Label>
-
-      <Segment.Group horizontal>
-        {this.renderItemList(recipeKV[1], 'In', 'input', 'green', this.renderIn)}
-        {this.renderItemList(recipeKV[1], 'Out', 'output', 'red', this.renderOut)}
-      </Segment.Group>
-    </Segment>
+  renderRecipe = (recipe) => (
+    <Recipe
+      key={recipe.get('ID')}
+      id={recipe.get('ID')}
+      name={recipe.get('name')}
+      input={recipe.get('input')}
+      output={recipe.get('output')}
+    />
   );
 
   render() {
@@ -107,13 +62,13 @@ class Recipes extends PureComponent {
     return (
       <Container>
         <Segment.Group>
-          {recipes.map(this.renderRecipe)}
+          {recipes.map(this.renderRecipe).toIndexedSeq()}
           <Segment>
             <Input
               label="New Recipe"
               value={newRecipeName}
-              onChange={newRecipeName}
-              action={{ color: 'green', content: 'Add', icon: 'plus '}}
+              onChange={this.changeRecipeName}
+              action={{ color: 'green', content: 'Add', icon: 'plus'}}
             />
           </Segment>
         </Segment.Group>
