@@ -23,7 +23,7 @@ export function createSaga(method, url, serializer, successActionType, failureAc
         params: method === 'GET' ? action.payload : null,
         data: method !== 'GET' ? action.payload : null,
       });
-      yield put({ type: successActionType, payload: serializer(response) });
+      yield put({ type: successActionType, payload: serializer(response, action) });
     } catch (error) {
       console.error(error);
       yield put({ type: failureActionType, payload: error });

@@ -5,14 +5,10 @@ import { connect } from 'react-redux';
 import {
   Container,
   Segment,
-  Icon,
-  List,
-  Label,
-  Button,
   Input,
 } from 'semantic-ui-react';
 
-import { getRecipesAction } from '../../store/actions';
+import { getRecipesAction, addRecipeAction } from '../../store/actions';
 import { Recipe } from '../../components';
 
 const mapStateToProps = state => ({
@@ -21,9 +17,20 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getRecipesAction,
+  addRecipeAction,
 };
 
 class Recipes extends PureComponent {
+  constructor(props, context) {
+    super(props, context);
+    this.addRecipeButtonProps = {
+      color: 'green',
+      content: 'Add',
+      icon: 'plus',
+      onClick: this.handleClickRecipeAdd,
+    }
+  }
+
 
   componentDidMount() {
     this.props.getRecipesAction();
@@ -32,6 +39,7 @@ class Recipes extends PureComponent {
   static propTypes = {
     recipes: PropTypes.instanceOf(Map),
     getRecipesAction: PropTypes.func.isRequired,
+    addRecipeAction: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -44,6 +52,12 @@ class Recipes extends PureComponent {
 
   handleChangeRecipeName = (event) => {
     this.setState({ newRecipeName: event.target.value })
+  };
+
+  handleClickRecipeAdd = () => {
+    const { addRecipeAction } = this.props;
+    const { newRecipeName } = this.state;
+    addRecipeAction({ name: newRecipeName });
   };
 
   renderRecipe = (recipe) => (
@@ -67,8 +81,8 @@ class Recipes extends PureComponent {
             <Input
               label="New Recipe"
               value={newRecipeName}
-              onChange={this.changeRecipeName}
-              action={{ color: 'green', content: 'Add', icon: 'plus'}}
+              onChange={this.handleChangeRecipeName}
+              action={this.addRecipeButtonProps}
             />
           </Segment>
         </Segment.Group>
