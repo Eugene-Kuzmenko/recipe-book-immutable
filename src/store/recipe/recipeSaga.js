@@ -10,7 +10,7 @@ import { serializeRecipeList } from './recipeSerializers';
 
 export default function *() {
   yield takeEvery(GET_RECIPES_REQUEST, createSaga(
-    'GET', 'recipes/',
+    'GET', '/recipes/',
     response => serializeRecipeList(response.data),
     GET_RECIPES_SUCCESS, GET_RECIPES_ERROR,
   ))
