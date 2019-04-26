@@ -1,0 +1,14 @@
+.recipe-item .ui.search.dropdown{
+    padding: 2px 4px;
+    min-width: 80px;
+    min-height: 0;
+}
+
+.recipe-item .ui.search.dropdown>input.search{
+    padding: 2px 4px;
+    min-height: 0;
+}
+
+.recipe-item .ui.search.dropdown>.icon {
+    padding: 2px 4px;
+}

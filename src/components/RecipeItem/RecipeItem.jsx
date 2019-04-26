@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { List, Label, Dropdown, Input } from 'semantic-ui-react';
+import { List, Label, Dropdown, Icon } from 'semantic-ui-react';
 import { Map } from 'immutable';
 
 import { removeIngredientAction } from '../../store/actions';
 import { connect } from 'react-redux';
 import NumberInput from '../NumberInput/NumberInput';
+import './RecipeItem.css';
 
 const connector = connect(
   state => ({
@@ -90,30 +91,33 @@ class RecipeItem extends PureComponent {
     const { items } = this.props;
     const { itemID, newQty } = this.state;
     return (
-      <List.Item>
+      <List.Item className="recipe-item">
         <List.Content floated="right">
-          <Label size="small" as="a" onClick={this.handleClickConfirm}>
-            Confirm
-          </Label>
-          <Label size="small" as="a" onClick={this.handleClickCancel}>
-            Cancel
-          </Label>
+          <Icon
+            name="check"
+            onClick={this.handleClickConfirm}
+          />
+
+          <Icon
+            name="times"
+            onClick={this.handleClickCancel}
+          />
         </List.Content>
-        <NumberInput
-          value={newQty}
-          onChange={this.handleChangeQty}
-        />
-        <Dropdown
-          basic
-          compact
-          size="mini"
-          placeholder='Select Item'
-          search
-          selection
-          value={itemID}
-          onChange={this.handleChangeItem}
-          options={items.toArray().map(toOptions)}
-        />
+        <List.Content>
+          <NumberInput
+            value={newQty}
+            onChange={this.handleChangeQty}
+          />
+          <Dropdown
+            placeholder='Select Item'
+            search
+            selection
+            value={itemID}
+            onChange={this.handleChangeItem}
+            options={items.toArray().map(toOptions)}
+          />
+        </List.Content>
+
       </List.Item>
     )
   }
@@ -124,7 +128,7 @@ class RecipeItem extends PureComponent {
       return this.renderEditing();
     }
     return (
-      <List.Item>
+      <List.Item className="recipe-item">
         <List.Content floated="right">
           <Label.Group>
             <Label size="small" as="a" onClick={this.handleClickEdit}>
