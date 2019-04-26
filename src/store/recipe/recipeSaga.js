@@ -32,6 +32,4 @@ export default function *() {
     (response, action) => action.id,
     REMOVE_RECIPE_SUCCESS, REMOVE_RECIPE_ERROR
   ));
-
-
 }

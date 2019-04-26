@@ -42,12 +42,7 @@ const raiseFlag = (flagName='isLoading') => (state, action) => state.set(flagNam
  * @returns {function} Reducer
  * */
 const resolveAndReplaceItem = (fieldName, flagName='isLoading') => (state, action) => (
-  state.set(
-    fieldName,
-    state.get(fieldName).set(
-      action.payload.get('ID'), action.payload
-    )
-  )
+  state.setIn([fieldName, action.payload.get('ID')], action.payload).set(flagName, false)
 );
 
 /**
@@ -58,10 +53,7 @@ const resolveAndReplaceItem = (fieldName, flagName='isLoading') => (state, actio
  * @returns {function} Reducer
  * */
 const resolveAndDeleteItem = (fieldName, flagName='isLoading') => (state, action) => (
-  state.set(
-    fieldName,
-    state.get(fieldName).delete(action.payload)
-  )
+  state.removeIn([fieldName, action.payload]).set(flagName, false)
 );
 
 export default {
