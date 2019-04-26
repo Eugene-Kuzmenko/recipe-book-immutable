@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import { Map } from 'immutable';
 import { List, Label } from 'semantic-ui-react';
+
 
 
 class RecipeItem extends PureComponent {

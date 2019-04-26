@@ -6,6 +6,9 @@ import {
   ADD_RECIPE_REQUEST,
   ADD_RECIPE_SUCCESS,
   ADD_RECIPE_ERROR,
+  REMOVE_RECIPE_REQUEST,
+  REMOVE_RECIPE_SUCCESS,
+  REMOVE_RECIPE_ERROR,
 } from './recipeActions';
 import { createSaga } from '../common/makeSaga';
 import {
@@ -24,5 +27,11 @@ export default function *() {
     response => serializeRecipe(response.data),
     ADD_RECIPE_SUCCESS, ADD_RECIPE_ERROR
   ));
+  yield takeEvery(REMOVE_RECIPE_REQUEST, createSaga(
+    'DELETE', (action) => `/recipes/${action.id}/`,
+    (response, action) => action.id,
+    REMOVE_RECIPE_SUCCESS, REMOVE_RECIPE_ERROR
+  ));
+
 
 }

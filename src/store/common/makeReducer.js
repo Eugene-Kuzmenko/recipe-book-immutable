@@ -50,10 +50,25 @@ const resolveAndReplaceItem = (fieldName, flagName='isLoading') => (state, actio
   )
 );
 
+/**
+ * Creates reducer which removes item with id provided in payload
+ * and lowers the flag
+ * @param {string} fieldName - name of the field where collection is
+ * @param {string} flagName - name of the flag, which is lowered by this action
+ * @returns {function} Reducer
+ * */
+const resolveAndDeleteItem = (fieldName, flagName='isLoading') => (state, action) => (
+  state.set(
+    fieldName,
+    state.get(fieldName).delete(action.payload)
+  )
+);
+
 export default {
   savePayload,
   resolveRequest,
   resolveAndReplaceCollection,
   resolveAndReplaceItem,
+  resolveAndDeleteItem,
   raiseFlag
 }

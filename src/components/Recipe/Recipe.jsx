@@ -7,8 +7,14 @@ import {
   Label,
   Segment,
 } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { removeRecipeAction } from '../../store/actions';
 
 import RecipeItem from '../RecipeItem/RecipeItem';
+
+const mapDispatchToProps = {
+  removeRecipeAction,
+};
 
 class Recipe extends PureComponent {
   static propTypes = {
@@ -30,6 +36,11 @@ class Recipe extends PureComponent {
     this.renderIn = this.renderItem.bind(this, 'green');
     this.renderOut = this.renderItem.bind(this, 'red');
   }
+
+  handleClickRemove = () => {
+    const { removeRecipeAction, id } = this.props;
+    removeRecipeAction(id)
+  };
 
   renderItem = (color, item) => (
     <RecipeItem
@@ -77,6 +88,15 @@ class Recipe extends PureComponent {
       <Segment>
         <Label attached="top" color="blue">
           {name}
+          <Label
+            as="a"
+            size="tiny"
+            color="black"
+            attached="top right"
+            onClick={this.handleClickRemove}
+          >
+            Remove
+          </Label>
         </Label>
 
         <Segment.Group horizontal>
@@ -88,4 +108,5 @@ class Recipe extends PureComponent {
   }
 }
 
-export default Recipe;
+export default connect(null, mapDispatchToProps)(Recipe);
+
