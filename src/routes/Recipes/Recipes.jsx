@@ -8,7 +8,7 @@ import {
   Input,
 } from 'semantic-ui-react';
 
-import { getRecipesAction, addRecipeAction } from '../../store/actions';
+import { getRecipesAction, addRecipeAction, getItemsAction } from '../../store/actions';
 import { Recipe } from '../../components';
 
 const mapStateToProps = state => ({
@@ -18,6 +18,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getRecipesAction,
   addRecipeAction,
+  getItemsAction,
 };
 
 class Recipes extends PureComponent {
@@ -33,13 +34,16 @@ class Recipes extends PureComponent {
 
 
   componentDidMount() {
-    this.props.getRecipesAction();
+    const { getItemsAction, getRecipesAction } = this.props;
+    getRecipesAction();
+    getItemsAction();
   }
 
   static propTypes = {
     recipes: PropTypes.instanceOf(Map),
     getRecipesAction: PropTypes.func.isRequired,
     addRecipeAction: PropTypes.func.isRequired,
+    getItemsAction: PropTypes.func.isRequired,
   };
 
   static defaultProps = {

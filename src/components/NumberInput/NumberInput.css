@@ -1,0 +1,42 @@
+.number-input {
+    display: flex;
+    font: 12px Arial;
+    line-height: 1;
+    vertical-align: center;
+    margin: 2px 0;
+}
+
+.number-input>.input {
+    padding: 1px 5px;
+    text-align: center;
+    width: 3em;
+
+}
+.number-input>.input:focus {
+    outline: none;
+}
+.number-input>.increment {
+    outline: none;
+    background-color: #2185d0;
+    color: white;
+    border: none;
+    padding: 1px 5px;
+
+}
+
+.number-input>.increment:active {
+    background-color: rgb(90, 173, 224);
+}
+
+.number-input>.increment.right {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    text-align: left;
+}
+
+.number-input>.increment.left {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    text-align: right;
+}
+
