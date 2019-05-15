@@ -1,7 +1,13 @@
 .recipe-item .ui.search.dropdown{
+    margin-left: 4px;
     padding: 2px 4px;
     min-width: 80px;
     min-height: 0;
+    flex: 1;
+}
+
+.recipe-item>.content {
+    display: flex;
 }
 
 .recipe-item .ui.search.dropdown>input.search{

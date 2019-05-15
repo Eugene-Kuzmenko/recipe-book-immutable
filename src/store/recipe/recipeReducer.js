@@ -8,6 +8,8 @@ import {
   GET_RECIPES_SUCCESS,
   REMOVE_RECIPE_REQUEST,
   REMOVE_RECIPE_SUCCESS,
+  EDIT_INGREDIENT_REQUEST,
+  EDIT_INGREDIENT_SUCCESS,
 } from './recipeActions';
 import makeReducer from '../common/makeReducer';
 
@@ -25,4 +27,6 @@ export default createReducer(initialState, {
   [ADD_RECIPE_SUCCESS]: makeReducer.resolveAndReplaceItem('collection', 'isCreating'),
   [REMOVE_RECIPE_REQUEST]: makeReducer.raiseFlag('isRemoving'),
   [REMOVE_RECIPE_SUCCESS]: makeReducer.resolveAndDeleteItem('collection', 'isRemoving'),
+  [EDIT_INGREDIENT_REQUEST]: makeReducer.raiseFlag(),
+  [EDIT_INGREDIENT_SUCCESS]: makeReducer.resolveAndReplaceAtKeyPath(),
 })

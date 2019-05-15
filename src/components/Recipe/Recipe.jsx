@@ -8,13 +8,17 @@ import {
   Segment,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { removeRecipeAction } from '../../store/actions';
+import { removeRecipeAction, editIngredientAction } from '../../store/actions';
 
 import RecipeItem from '../RecipeItem/RecipeItem';
 
-const mapDispatchToProps = {
-  removeRecipeAction,
-};
+const connector = connect(
+  null,
+  {
+    removeRecipeAction,
+    editIngredientAction,
+  }
+);
 
 class Recipe extends PureComponent {
   static propTypes = {
@@ -42,6 +46,11 @@ class Recipe extends PureComponent {
     removeRecipeAction(id)
   };
 
+  handleConfirmEdit = (id, item_id, qty) => {
+    const { editIngredientAction } = this.props;
+    editIngredientAction({ id, item_id, qty });
+  };
+
   renderItem = (color, item) => (
     <RecipeItem
       key={item.get('ID')}
@@ -50,6 +59,7 @@ class Recipe extends PureComponent {
       name={item.get('name')}
       qty={item.get('qty')}
       color={color}
+      onSave={this.handleConfirmEdit}
     />
   );
 
@@ -108,5 +118,5 @@ class Recipe extends PureComponent {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Recipe);
+export default connector(Recipe);
 

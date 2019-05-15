@@ -12,7 +12,9 @@ const connector = connect(
   state => ({
     items: state.getIn(['item', 'collection']),
   }),
-  { removeIngredientAction },
+  {
+    removeIngredientAction,
+  },
 );
 
 const toOptions = kv => ({
@@ -31,6 +33,7 @@ class RecipeItem extends PureComponent {
     name: PropTypes.string,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
+    removeIngredientAction: PropTypes.func.isRequired,
     removeIngredientAction: PropTypes.func.isRequired,
   };
 
@@ -51,9 +54,9 @@ class RecipeItem extends PureComponent {
   };
 
   handleClickConfirm = () => {
-    const { onSave } = this.props;
-    const { newQty, itemID } = this.state;
-    onSave(newQty, itemID);
+    const { onSave, id } = this.props;
+    const { itemID, newQty } = this.state;
+    onSave(id, itemID, newQty);
     this.setState({ isEditing: false });
   };
 
@@ -78,8 +81,8 @@ class RecipeItem extends PureComponent {
     removeIngredientAction(id);
   };
 
-  handleChangeItem = (event) => {
-    this.setState({ itemID: event.target.value });
+  handleChangeItem = (event, current) => {
+    this.setState({ itemID: current.value });
   };
 
   handleChangeQty = (newQty) => {

@@ -22,6 +22,14 @@ export const removeIngredientAction = id => ({
   type: REMOVE_INGREDIENT_REQUEST, id,
 });
 
+export const EDIT_INGREDIENT_REQUEST = 'EDIT_INGREDIENT_REQUEST';
+export const EDIT_INGREDIENT_SUCCESS = 'EDIT_INGREDIENT_SUCCESS';
+export const EDIT_INGREDIENT_ERROR = 'EDIT_INGREDIENT_ERROR';
+
+export const editIngredientAction = payload => ({
+  type: EDIT_INGREDIENT_REQUEST, payload,
+});
+
 export const REMOVE_RECIPE_REQUEST = 'REMOVE_RECIPE_REQUEST';
 export const REMOVE_RECIPE_SUCCESS = 'REMOVE_RECIPE_SUCCESS';
 export const REMOVE_RECIPE_ERROR = 'REMOVE_RECIPE_ERROR';

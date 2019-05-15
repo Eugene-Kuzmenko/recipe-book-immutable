@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
 
-const serializeRecipeItem = recipeItem => Map({
+export const serializeRecipeItem = recipeItem => Map({
   ID: recipeItem.id,
   itemID: recipeItem.item_id,
   name: recipeItem.item_name,

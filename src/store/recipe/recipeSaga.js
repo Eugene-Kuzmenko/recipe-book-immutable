@@ -6,6 +6,9 @@ import {
   ADD_RECIPE_REQUEST,
   ADD_RECIPE_SUCCESS,
   ADD_RECIPE_ERROR,
+  EDIT_INGREDIENT_REQUEST,
+  EDIT_INGREDIENT_SUCCESS,
+  EDIT_INGREDIENT_ERROR,
   REMOVE_RECIPE_REQUEST,
   REMOVE_RECIPE_SUCCESS,
   REMOVE_RECIPE_ERROR,
@@ -14,6 +17,7 @@ import { createSaga } from '../common/makeSaga';
 import {
   serializeRecipeList,
   serializeRecipe,
+  serializeRecipeItem,
 } from './recipeSerializers';
 
 export default function *() {
@@ -31,5 +35,18 @@ export default function *() {
     'DELETE', (action) => `/recipes/${action.id}/`,
     (response, action) => action.id,
     REMOVE_RECIPE_SUCCESS, REMOVE_RECIPE_ERROR
+  ));
+  yield takeEvery(EDIT_INGREDIENT_REQUEST, createSaga(
+    'PATCH', (action) => `/recipe-items/${action.payload.id}/`,
+    (response, action) => ({
+      keyPath: [
+        'collection',
+        response.data.recipe_id,
+        response.data.is_result ? 'output' : 'input',
+        response.data.id,
+      ],
+      value: serializeRecipeItem(response.data)
+    }),
+    EDIT_INGREDIENT_SUCCESS, EDIT_INGREDIENT_ERROR
   ));
 }

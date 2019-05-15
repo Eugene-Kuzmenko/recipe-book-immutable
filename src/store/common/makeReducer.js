@@ -65,11 +65,27 @@ const resolveAndDeleteItem = (fieldName, flagName='isLoading') => (state, action
   state.removeIn([fieldName, action.payload]).set(flagName, false)
 );
 
+/**
+ * Creates reducer which sets value at keyPath to the value of the payload
+ * and lowers the flag
+ * @param {string} fieldName - name of the field where collection is
+ * @param {string} flagName - name of the flag, which is lowered by this action
+ * @returns {function} Reducer
+ * */
+const resolveAndReplaceAtKeyPath = (flagName='isLoading') => (state, action) => (
+  state
+    .setIn(action.payload.keyPath, action.payload.value)
+    .set(flagName, false)
+);
+
+
+
 export default {
   savePayload,
   resolveRequest,
   resolveAndReplaceCollection,
   resolveAndReplaceItem,
+  resolveAndReplaceAtKeyPath,
   resolveAndDeleteItem,
   raiseFlag
 }
