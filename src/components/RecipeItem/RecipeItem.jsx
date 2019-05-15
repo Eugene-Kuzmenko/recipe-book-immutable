@@ -34,7 +34,6 @@ class RecipeItem extends PureComponent {
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
     removeIngredientAction: PropTypes.func.isRequired,
-    removeIngredientAction: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
