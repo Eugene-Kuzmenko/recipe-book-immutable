@@ -12,6 +12,8 @@ import {
   EDIT_INGREDIENT_SUCCESS,
   ADD_INGREDIENT_REQUEST,
   ADD_INGREDIENT_SUCCESS,
+  REMOVE_INGREDIENT_REQUEST,
+  REMOVE_INGREDIENT_SUCCESS,
 } from './recipeActions';
 import makeReducer from '../common/makeReducer';
 
@@ -33,4 +35,21 @@ export default createReducer(initialState, {
   [EDIT_INGREDIENT_SUCCESS]: makeReducer.resolveAndReplaceAtKeyPath(),
   [ADD_INGREDIENT_REQUEST]: makeReducer.raiseFlag(),
   [ADD_INGREDIENT_SUCCESS]: makeReducer.resolveAndReplaceAtKeyPath(),
+  [REMOVE_INGREDIENT_REQUEST]: makeReducer.raiseFlag(),
+
+  [REMOVE_INGREDIENT_SUCCESS]: (state, action) => {
+    const itemID = action.payload;
+    const collection = state.get('collection');
+
+    let itemType = 'input';
+    let recipeWithItem = recipe => recipe.get(itemType).has(itemID);
+    let recipeID = collection.findKey(recipeWithItem);
+
+    if (!recipeID) {
+      itemType = 'output';
+      recipeID = collection.findKey(recipeWithItem);
+    }
+
+    return state.removeIn(['collection', recipeID, itemType, itemID])
+  }
 })

@@ -12,6 +12,10 @@ import {
   ADD_INGREDIENT_REQUEST,
   ADD_INGREDIENT_SUCCESS,
   ADD_INGREDIENT_ERROR,
+  REMOVE_INGREDIENT_REQUEST,
+  REMOVE_INGREDIENT_SUCCESS,
+  REMOVE_INGREDIENT_ERROR,
+
   REMOVE_RECIPE_REQUEST,
   REMOVE_RECIPE_SUCCESS,
   REMOVE_RECIPE_ERROR,
@@ -59,5 +63,9 @@ export default function *() {
     saveRecipeItemSerializer,
     ADD_INGREDIENT_SUCCESS, ADD_INGREDIENT_ERROR
   ));
-
+  yield takeEvery(REMOVE_INGREDIENT_REQUEST, createSaga(
+    'DELETE', (action) => `/recipe-items/${action.id}`,
+    (response, action) => action.id,
+    REMOVE_INGREDIENT_SUCCESS, REMOVE_INGREDIENT_ERROR
+  ));
 }
