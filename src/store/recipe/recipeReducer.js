@@ -50,6 +50,8 @@ export default createReducer(initialState, {
       recipeID = collection.findKey(recipeWithItem);
     }
 
-    return state.removeIn(['collection', recipeID, itemType, itemID])
+    return state
+      .removeIn(['collection', recipeID, itemType, itemID])
+      .set('isLoading', false)
   }
 })

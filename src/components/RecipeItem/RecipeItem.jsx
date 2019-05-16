@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { List, Label, Dropdown, Icon } from 'semantic-ui-react';
 import { Map } from 'immutable';
 
-import { removeIngredientAction } from '../../store/actions';
+import { removeIngredientAction, addItemAction } from '../../store/actions';
 import { connect } from 'react-redux';
 import NumberInput from '../NumberInput/NumberInput';
 import './RecipeItem.css';
@@ -11,8 +11,10 @@ import './RecipeItem.css';
 const connector = connect(
   state => ({
     items: state.getIn(['item', 'collection']),
+    newItemID: state.getIn(['item', 'newItemID'])
   }),
   {
+    addItemAction,
     removeIngredientAction,
   },
 );
@@ -30,11 +32,13 @@ class RecipeItem extends PureComponent {
     color: PropTypes.string,
     id: PropTypes.number,
     itemID: PropTypes.number,
+    newItemID: PropTypes.number,
     qty: PropTypes.number,
     name: PropTypes.string,
     onSave: PropTypes.func,
     onCancel: PropTypes.func,
     removeIngredientAction: PropTypes.func.isRequired,
+    addItemAction: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -52,7 +56,16 @@ class RecipeItem extends PureComponent {
     isEditing: false,
     itemID: -1,
     newQty: 0,
+    shouldSelectNewItem: false,
   };
+
+  componentDidUpdate(prevProps) {
+    const { shouldSelectNewItem } = this.state;
+    const { newItemID } = this.props;
+    if (shouldSelectNewItem && prevProps.newItemID !== newItemID) {
+      this.setState({ itemID: newItemID });
+    }
+  }
 
   handleClickConfirm = () => {
     const { onSave, id } = this.props;
@@ -82,14 +95,19 @@ class RecipeItem extends PureComponent {
     removeIngredientAction(id);
   };
 
-  handleChangeItem = (event, current) => {
-    this.setState({ itemID: current.value });
+  handleChangeItem = (event, { value }) => {
+    this.setState({ itemID: value });
+  };
+
+  handleAddItem = (e, { value }) => {
+    const { addItemAction } = this.props;
+    addItemAction({ name: value });
+    this.setState({ shouldSelectNewItem: true });
   };
 
   handleChangeQty = (newQty) => {
     this.setState({ newQty });
   };
-
 
   renderEditing() {
     const { items } = this.props;
@@ -113,11 +131,13 @@ class RecipeItem extends PureComponent {
             onChange={this.handleChangeQty}
           />
           <Dropdown
+            allowAdditions
             placeholder='Select Item'
             search
             selection
             value={itemID}
             onChange={this.handleChangeItem}
+            onAddItem={this.handleAddItem}
             options={items.toArray().map(toOptions)}
           />
         </List.Content>

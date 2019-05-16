@@ -19,7 +19,7 @@ class App extends PureComponent {
           <Fragment>
             <NavBar />
             <Switch>
-              <Route path="chain" component={Chain} />
+              <Route path="/chain" component={Chain} />
               <Route component={Recipes} />
             </Switch>
           </Fragment>
