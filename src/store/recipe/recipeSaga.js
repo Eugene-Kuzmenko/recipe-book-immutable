@@ -9,6 +9,9 @@ import {
   EDIT_INGREDIENT_REQUEST,
   EDIT_INGREDIENT_SUCCESS,
   EDIT_INGREDIENT_ERROR,
+  ADD_INGREDIENT_REQUEST,
+  ADD_INGREDIENT_SUCCESS,
+  ADD_INGREDIENT_ERROR,
   REMOVE_RECIPE_REQUEST,
   REMOVE_RECIPE_SUCCESS,
   REMOVE_RECIPE_ERROR,
@@ -19,6 +22,16 @@ import {
   serializeRecipe,
   serializeRecipeItem,
 } from './recipeSerializers';
+
+const saveRecipeItemSerializer = (response, action) => ({
+  keyPath: [
+    'collection',
+    response.data.recipe_id,
+    response.data.is_result ? 'output' : 'input',
+    response.data.id,
+  ],
+  value: serializeRecipeItem(response.data)
+});
 
 export default function *() {
   yield takeEvery(GET_RECIPES_REQUEST, createSaga(
@@ -38,15 +51,13 @@ export default function *() {
   ));
   yield takeEvery(EDIT_INGREDIENT_REQUEST, createSaga(
     'PATCH', (action) => `/recipe-items/${action.payload.id}/`,
-    (response, action) => ({
-      keyPath: [
-        'collection',
-        response.data.recipe_id,
-        response.data.is_result ? 'output' : 'input',
-        response.data.id,
-      ],
-      value: serializeRecipeItem(response.data)
-    }),
+    saveRecipeItemSerializer,
     EDIT_INGREDIENT_SUCCESS, EDIT_INGREDIENT_ERROR
   ));
+  yield takeEvery(ADD_INGREDIENT_REQUEST, createSaga(
+    'POST', (action) => `/recipe-items/`,
+    saveRecipeItemSerializer,
+    ADD_INGREDIENT_SUCCESS, ADD_INGREDIENT_ERROR
+  ));
+
 }

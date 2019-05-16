@@ -25,6 +25,7 @@ const toOptions = kv => ({
 
 class RecipeItem extends PureComponent {
   static propTypes = {
+    isEditing: PropTypes.bool,
     items: PropTypes.instanceOf(Map),
     color: PropTypes.string,
     id: PropTypes.number,
@@ -37,6 +38,7 @@ class RecipeItem extends PureComponent {
   };
 
   static defaultProps = {
+    isEditing: false,
     color: 'blue',
     id: -1,
     itemID: -1,
@@ -119,14 +121,13 @@ class RecipeItem extends PureComponent {
             options={items.toArray().map(toOptions)}
           />
         </List.Content>
-
       </List.Item>
     )
   }
 
   render() {
-    const { name, color, qty } = this.props;
-    if (this.state.isEditing) {
+    const { name, color, qty, isEditing } = this.props;
+    if (isEditing || this.state.isEditing) {
       return this.renderEditing();
     }
     return (

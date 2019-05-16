@@ -17,7 +17,6 @@ class NumberInput extends PureComponent {
   change(value) {
     const { onChange } = this.props;
     onChange(value > 0 ? value : 0);
-    console.log(value)
   }
 
   handleChange = (event) => {

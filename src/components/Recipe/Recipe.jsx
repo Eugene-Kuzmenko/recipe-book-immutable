@@ -2,22 +2,17 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import {
-  Icon,
-  List,
   Label,
   Segment,
 } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { removeRecipeAction, editIngredientAction } from '../../store/actions';
 
-import RecipeItem from '../RecipeItem/RecipeItem';
+import RecipeItemList from '../RecipeItemList/RecipeItemList';
+import { removeRecipeAction } from '../../store/actions';
 
 const connector = connect(
   null,
-  {
-    removeRecipeAction,
-    editIngredientAction,
-  }
+  { removeRecipeAction }
 );
 
 class Recipe extends PureComponent {
@@ -35,64 +30,14 @@ class Recipe extends PureComponent {
     output: Map(),
   };
 
-  constructor(props, context) {
-    super(props, context);
-    this.renderIn = this.renderItem.bind(this, 'green');
-    this.renderOut = this.renderItem.bind(this, 'red');
-  }
-
   handleClickRemove = () => {
     const { removeRecipeAction, id } = this.props;
     removeRecipeAction(id)
   };
 
-  handleConfirmEdit = (id, item_id, qty) => {
-    const { editIngredientAction } = this.props;
-    editIngredientAction({ id, item_id, qty });
-  };
-
-  renderItem = (color, item) => (
-    <RecipeItem
-      key={item.get('ID')}
-      id={item.get('ID')}
-      itemID={item.get('itemID')}
-      name={item.get('name')}
-      qty={item.get('qty')}
-      color={color}
-      onSave={this.handleConfirmEdit}
-    />
-  );
-
-  renderItemList = (items, title, color, renderItem) => (
-    <Segment>
-      <List divided >
-        <List.Item>
-          <List.Content floated="right">
-            <Label
-              as="a"
-              size="small"
-              color="green"
-            >
-              <Icon name="plus" />
-              Add
-            </Label>
-          </List.Content>
-          <List.Content>
-            <Label
-              attached="top left"
-              corner
-            >
-              {title}
-            </Label>
-          </List.Content>
-        </List.Item>
-        {items.map(renderItem).toIndexedSeq()}
-      </List>
-    </Segment>
-  );
 
   render() {
-    const { name, input, output } = this.props;
+    const { name, input, output, id } = this.props;
 
     return (
       <Segment>
@@ -110,8 +55,20 @@ class Recipe extends PureComponent {
         </Label>
 
         <Segment.Group horizontal>
-          {this.renderItemList(input, 'In', 'green', this.renderIn)}
-          {this.renderItemList(output, 'Out', 'red', this.renderOut)}
+          <RecipeItemList
+            recipeID={id}
+            color="green"
+            title="In"
+            items={input}
+
+          />
+          <RecipeItemList
+            isResult
+            recipeID={id}
+            color="red"
+            title="Out"
+            items={output}
+          />
         </Segment.Group>
       </Segment>
     );
