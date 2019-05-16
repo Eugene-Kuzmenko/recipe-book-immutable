@@ -9,7 +9,7 @@ import {
 } from 'semantic-ui-react';
 
 import { getRecipesAction, addRecipeAction, getItemsAction } from '../../store/actions';
-import { Recipe } from '../../components';
+import { Recipe, RecipeSearchBar } from '../../components';
 
 const mapStateToProps = state => ({
   recipes: state.getIn(['recipe', 'collection']),
@@ -79,6 +79,7 @@ class Recipes extends PureComponent {
     const { newRecipeName } = this.state;
     return (
       <Container>
+        <RecipeSearchBar/>
         <Segment.Group>
           {recipes.map(this.renderRecipe).toIndexedSeq()}
           <Segment>
