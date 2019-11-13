@@ -21,6 +21,7 @@ class Recipe extends PureComponent {
     id: PropTypes.number,
     input: PropTypes.instanceOf(Map),
     output: PropTypes.instanceOf(Map),
+    removeRecipeAction: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
